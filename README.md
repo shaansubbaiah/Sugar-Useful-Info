@@ -11,7 +11,7 @@ Each Linux distribution comes with a Display Manager.
 > A Display Manager (DM) is essentially a graphical login program, that
 > lets you switch users or switch desktop environments.
 
-The most popular desktop managers are `GDM3` (Default for distros with Gnome DE), `LIGHTDM` (Default for Raspbian used by Raspberry Pi), `SDDM` (Default for distros with KDE).
+The most popular display managers are `GDM3` (Default for distros with Gnome DE), `LIGHTDM` (Default for Raspbian used by Raspberry Pi), `SDDM` (Default for distros with KDE).
 
   
 
