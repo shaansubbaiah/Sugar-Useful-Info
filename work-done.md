@@ -36,12 +36,252 @@
 
 ## About
 
-The project revolves around the packaging, testing and debugging of Debian(Experimental, Release, Stable versions) with Sugar and its dependencies, checking the functioning of the core features of the application, online collaboration, saveand resume features
+The project revolved primarily around the testing and debugging of the various releases of Debian (stable, testing, experimental) with Sugar and its dependencies.
+
+Testing reports of
+
+<details> 
+<summary>Testing outcome - Sugar 0.117-3 on Debian 10.4 Stable (Buster)</summary>
+
+| Sugar | Debian|
+| :---: | :---: |
+| 0.117-3 | Buster / 10.4,  (unstable packages) |
+
+`Tick ✓` `Cross ✕`
+
+| Activity | Start/Stop | Functions | Save/Restore | Collaboration | Interface | Other |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Browse | ✕ [Debian #963068](bugs.debian.org/963068) | ✓ (Search bar doesn't work very well, described below) | ✓| ✕ (Error in Host's log, doesn't work, described below) | ✓ | Collapsing the Bookmarks bar lags/ causes multiple refreshes? |
+| Calculate | ✓ | ✓ | ✓ | ✓ | ✓ (Nothing thats not tracked on Github) | ✓ |
+| Chat | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Image Viewer | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Jukebox | ✓ | ✓ | ✓ | - | ✕ Multiple issues, mostly due to the OpenGL Renderer, described below | ✓ |
+| Log | ✓ | ✓ | ✓ (Saving log as a zip) | - | ✓ | ✓ |
+| Pippy | ✓ | ✓ | ✓ | - | ✓ | Dark mode is not applied to Pippy tabs created after Dark Mode is enabled. |
+| Read | ✓ | ✓ (Sometimes last 2 characters in a txt file are missing. Described below ) | ✓ | ✕ (Stuck at 'Receiving book') | ✓ | ✓ |
+| Terminal | ✓ | ✓ | ✓ | - | ✓ | Warning in activity log, described below |
+| Write | ✓ | ✓ | ✓ | ✕ [#40, Reported by Saumya](https://github.com/sugarlabs/write-activity/issues/40) | ✓ | 1. TTS ends halfway through the last word. <br> 2. Default font differs for guest in collaboration [#43](https://github.com/sugarlabs/write-activity/issues/43)|
+
+
+```markdown
+**Terminal**
+    ```
+    /usr/lib/python3/dist-packages/sugar3/activity/activityinstance.py:60: Warning: value "((GtkInputPurpose) 10)
+    " of type 'GtkInputPurpose' is invalid or out of range for property 'input-purpose' of type 'GtkInputPurpose'
+    activity.show()
+    1592556015.448473 DEBUG root: Activity.__canvas_map_cb
+    /usr/share/sugar/activities/Terminal.activity/terminal.py:378: Warning: value "((GtkInputPurpose) 10)" of typ
+    e 'GtkInputPurpose' is invalid or out of range for property 'input-purpose' of type 'GtkInputPurpose'
+    index = self._notebook.append_page(box, tablabel)
+    /usr/share/sugar/activities/Terminal.activity/terminal.py:453: Warning: value "((GtkInputPurpose) 10)" of typ
+    e 'GtkInputPurpose' is invalid or out of range for property 'input-purpose' of type 'GtkInputPurpose'
+    self._notebook.props.page = index
+    ```
+
+**Browse** 
+All tests apart from the `start/stop` were done after installing `libglib2.0-dev` package which prevented the activity from opening.
+1. Typing something in the search bar and clicking the search button or hitting Enter doesn't do anything; whereas searching through the address bar works.
+2. Typing in the address bar causes several (possibly 100's) of warnings in the activity log
+    ```
+    (sugar-activity3:7184): Gtk-WARNING **: 16:25:08.511: Failed to set text from markup due to error parsing mar
+    kup: Error on line 2: Entity did not end with a semicolon; most likely you used an ampersand character withou
+    t intending to start an entity — escape ampersand as &amp;
+    ```
+
+**Jukebox**
+1. Moving the openGL renderer window around creates a Windows XP-like solitare effect 
+![](screenshots/19June-jukebox-1.png)
+2. Closing the openGL renderer window throws an error in the Jukebox log
+    ```
+    1592561580.133608 ERROR root: ERROR MESSAGE: gst-resource-error-quark: Quit requested (3)
+    1592561580.133807 ERROR root: ERROR DETAIL: gstglimagesink.c(1781): gst_glimage_sink_show_frame (): /GstPipel
+    ine:pipeline0/GstPlayBin:playbin0/GstPlaySink:playsink/GstBin:vbin/GstAutoVideoSink:videosink/GstGLImageSinkB
+    in:videosink-actual-sink-glimage/GstGLImageSink:sink
+    ```
+3. Seeking ahead or back causes the openGL visualization to freeze, takes quite some time to recover or doesn't recover at all.
+4. Clicking the full-screen button causes another openGL visualization of the same size to spawn on the left of the previous visualization, which is now frozen.
+![](screenshots/19June-jukebox-2.png)
+5. Sometimes while closing and playing songs in the playlist a huge amount of warning appear in the jukebox log, not sure how to reproduce properly.
+    ```
+    1592562307.413873 ERROR root: ERROR MESSAGE: gst-resource-error-quark: Quit requested (3)
+    1592562307.414180 ERROR root: ERROR DETAIL: gstglimagesink.c(1781): gst_glimage_sink_show_frame (): /GstPipeline:pipeline0/GstPlayBin:playbin0/GstPlaySink:playsink/GstBin:vbin/GstAutoVideoSink:videosink/GstGLImageSinkBin:videosink-actual-sink-glimage/GstGLImageSink:sink
+
+    (sugar-activity3:6947): GStreamer-CRITICAL **: 15:55:07.546: gst_object_unref: assertion '((GObject *) object)->ref_count > 0' failed
+
+    (sugar-activity3:6947): GStreamer-CRITICAL **: 15:55:07.547: gst_object_unref: assertion '((GObject *) object)->ref_count > 0' failed
+
+    .
+    . This line repeats around 100+ times
+    .
+
+    (sugar-activity3:6947): GStreamer-CRITICAL **: 15:55:07.874: gst_object_unref: assertion '((GObject *) object)->ref_count > 0' failed
+    sys:1: Warning: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+    sys:1: Warning: instance with invalid (NULL) class pointer
+    sys:1: Warning: g_signal_emit_valist: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+    ```
+
+**Also, in `~/.sugar/default/data` I noticed there were ~60 copies of the same song I had been playing. I had downloaded the song only once, perhaps it is something to do with how Jukebox handles the songs. This consumes a ton of space, in my case 7mb*60.**
+
+**Read**
+Sometimes the last 2 characters in a txt file aren't seen.
+Reproduced by: Create a txt file in Write Activity -> Open with Read Activity -> Last 2 characters are missing.
+This happens occasionally, the data in the txt file is intact.
+
+**Calculate**
+Typing random text instead of digits/variables throws an error. Should be handled.
+    ```
+    1592573782.228379 DEBUG Calculate: Result: RuntimeError("Variable 'oklol' not defined", 0,
+    5)
+    Traceback (most recent call last):
+    File "/usr/share/sugar/activities/Calculate.activity/layout.py", line 133, in <lambda>
+        lambda w: self._parent.process()],
+    File "/usr/share/sugar/activities/Calculate.activity/calculate.py", line 552, in process
+        self.set_error_equation(eqn)
+    File "/usr/share/sugar/activities/Calculate.activity/calculate.py", line 444, in set_err
+    or_equation
+        self.set_last_equation(eqn)
+    File "/usr/share/sugar/activities/Calculate.activity/calculate.py", line 439, in set_las
+    t_equation
+        self.layout.last_eq.set_buffer(eqn.create_lasteq_textbuf())
+    File "/usr/share/sugar/activities/Calculate.activity/calculate.py", line 219, in create_
+    lasteq_textbuf
+        resstr = str(self.result)
+    File "/usr/share/sugar/activities/Calculate.activity/astparser.py", line 110, in __str__
+        {'a': self.eqn[self._range[0] - 1: self._range[1] - 1],
+    TypeError: 'NoneType' object is not subscriptable
+    ```
+
+**Browse**
+Traceback in Host's Browse log when Guest connects. The webpage opened in the host does not open in the Guest.
+    ```
+    1592574235.567373 DEBUG CollabWrapper: __state_changed_cb dbus.UInt32(3) dbus.UInt32(0)
+    Traceback (most recent call last):
+    File "/usr/share/sugar/activities/Browse.activity/collabwrapper.py", line 688, in __noti
+    fy_state_cb
+        input_stream = self._get_input_stream()
+    File "/usr/share/sugar/activities/Browse.activity/collabwrapper.py", line 736, in _get_i
+    nput_stream
+        return Gio.MemoryInputStream.new_from_data(self._blob, None)
+    TypeError: Item 0: Must be number, not str
+    ```
+
+
+Note, the tests:
+- Don't include issues that were already tracked in Github.
+- Cover almost all the functions of an activity.
+- Save/Restore refers to closing and reopening the activity and checking if there are any changes for activities that do not have an explicit save functionality.
+- Includes most, if not all errors that were logged while testing the activities. _Ideally_ nothing should be left out, but ...
+- Will be covered in more detail if possible for Debian `unstable` and `testing`, this was to setup a baseline.
+```
+
+</details>
+
+
+<details>
+<summary>Testing outcome - Sugar 0.117-3 on Debian 11 Stable (Bullseye)</summary>
+
+|  Sugar  |              Debian               |  As of  |
+| :-----: | :-------------------------------: | :-----: |
+| 0.117-3 | Bullseye / 11, (testing packages) | 16 July |
+
+`Tick ✓` `Cross ✕`
+
+| Activity     |                   Start/Stop                    |  Functions  | Save/Restore | Collaboration | Interface |    Other     |
+| :----------- | :---------------------------------------------: | :---------: | :----------: | :-----------: | :-------: | :----------: |
+| Browse       | ✕ <br> [Debian #963068](bugs.debian.org/963068) |      ✓      |      ✓       |       ✕       |     ✓     | **1 ISSUE**  |
+| Calculate    |                        ✓                        |      ✓      |      ✓       |       ✓       |     ✓     | **1 ISSUE**  |
+| Chat         |                        ✓                        |      ✓      |      ✓       |       ✓       |     ✓     |      ✓       |
+| Image Viewer |                        ✓                        |      ✓      |      ✓       |       ✓       |     ✓     |      ✓       |
+| Jukebox      |                        ✓                        |      ✓      |      ✓       |       -       |     ✓     |      ✓       |
+| Log          |                        ✓                        |      ✓      |      ✓       |       -       |     ✓     |      ✓       |
+| Pippy        |                        ✓                        |      ✓      |      ✓       |       -       |     ✓     |      ✓       |
+| Read         |                        ✓                        | **1 ISSUE** |      ✓       |       ✕       |     ✓     |      ✓       |
+| Terminal     |                        ✓                        |      ✓      |      ✓       |       -       |     ✓     |      ✓       |
+| Write        |                        ✓                        |      ✓      |      ✓       |       ✕       |     ✓     | **2 ISSUES** |
+| EToys        |                   **1 ISSUE**                   | **1 ISSUE** |      ✕       |       -       |     ✓     |      ✓       |
+| Memorize     |                        ✓                        | **1 ISSUE** |      ✕       |       ✓       |     ✓     | **2 ISSUES** |
+
+
+```markdown
+**Read**
+Functions:
+
+1. Sometimes the last 2 characters in a txt file aren't seen. [NEEDS CONFIRMATION]
+   Reproduced by: Create a txt file in Write Activity -> Open with Read Activity -> Last 2 characters are missing.
+   This happens occasionally, the data in the txt file is intact.
+
+
+
+**Calculate**
+Other:
+
+1. Typing random text instead of digits/variables throws an error. [#67](https://github.com/sugarlabs/calculate-activity/issues/67)
+
+
+
+**Write**
+Other:
+
+1. TTS ends halfway through the last word. [DEBIAN ONLY]
+2. Abiword Issues, Different fonts in collaboration, crashes, etc [#43](https://github.com/sugarlabs/write-activity/issues/43)
+
+
+
+**Browse:**
+Other:
+
+1. Collapsing the Bookmarks bar lags/ causes multiple refreshes? [NEEDS CONFIRMATION]
+
+
+
+**Memorize**
+Functions:
+
+1. Editing the game doesn’t work, the activity gets stuck [#29](https://github.com/sugarlabs/memorize-activity/issues/29)
+
+Save/Restore:
+
+1. Activity saves its state to the Datastore but does not load it properly, a fresh instance is started. Therefore, the user is unable to save their progress and continue later.
+
+Other:
+
+1. On hovering over ‘grid size’ buttons, a warning is displayed:
+
+    (sugar-activity3:1859): Gtk-WARNING **: 21:04:20.416: Drawing a gadget with negative dimensions.
+    Did you forget to allocate a size? (node menuitem owner SugarPaletteHeader)
+   
+
+2. The activity’s sounds and images (which are optional) depend on art4apps (http://wiki.sugarlabs.org/go/Art4Apps), which is not installed by default. Hence none of the sounds and words to generate cards dynamically are included. The user is not notified of winning as there is neither text displayed saying he/she has won nor the winning sound (win.wav from art4apps) is played.
+
+
+
+**Etoys:**
+Start/Stop:
+
+1. Error window upon launching:
+   `Error: Cannot find gconf path /desktop/user/sugar`
+
+Functions:
+
+1. Clicking the Back/left-arrow button goes to the menu, which is frozen. The programmable car and the menu buttons don't work, there is no way to navigate back and the only way to exit is using Function buttons (F1 to F3)
+
+
+
+A lot of the issues reported while testing on Debian Buster (with unstable packages) have been fixed already.
+
+Though these tests were done to check for issues of Sugar packages on Debian, a lot of the issues found (almost all) are present in the upstream Sugar Labs Github repositories.
+
+Issues with the label [NEEDS CONFIRMATION] are reproducible on Debian Bullseye, needs to be tested on other packages/distributions.
+
+```
+
+</details>
+
 
 The official project idea can be found in [sugarlabs/GSoC](https://github.com/sugarlabs/GSoC/blob/master/Ideas-2020.md#debian-advocacy-for-sugar)
 
 
-## Issues reported
+### Issues reported
 
 `05-Jun` - Sugar - DBus NoReply Error [Sugar-devel](http://lists.sugarlabs.org/archive/sugar-devel/2020-June/058403.html)
 
@@ -75,10 +315,10 @@ The official project idea can be found in [sugarlabs/GSoC](https://github.com/su
 &emsp; &emsp; &emsp;└ Write - Sometimes, TTS ends halfway through the last word.
 
 
-`30-Jun` - Read - When highlighting text, a wrong logging level was used. [[Sugar-devel]](http://lists.sugarlabs.org/archive/sugar-devel/2020-June/058501.html)
+`30-Jun` - Read - When highlighting text, a wrong logging level was used. [Sugar-devel](http://lists.sugarlabs.org/archive/sugar-devel/2020-June/058501.html)
 
 
-`30-Jun` - Calculate - Warning when attempting to calculate an expression; Error when using 'pi' and 'e' in expression; Hovering over Algebraic, Trigonometric toolbar buttons throws errors; Submitting trigonometric functions without values displays an error in the Activity but only the first character is highlighted red instead of the full function; Submitting logical expressions without values throws errors; Submitting / pressing '=' without entering any value throws errors. [[Sugar-devel]](http://lists.sugarlabs.org/archive/sugar-devel/2020-June/058501.html)
+`30-Jun` - Calculate - Warning when attempting to calculate an expression; Error when using 'pi' and 'e' in expression; Hovering over Algebraic, Trigonometric toolbar buttons throws errors; Submitting trigonometric functions without values displays an error in the Activity but only the first character is highlighted red instead of the full function; Submitting logical expressions without values throws errors; Submitting / pressing '=' without entering any value throws errors. [Sugar-devel](http://lists.sugarlabs.org/archive/sugar-devel/2020-June/058501.html)
 
 
 `04-Jul` - [Sugar-devel](http://lists.sugarlabs.org/archive/sugar-devel/2020-July/058522.html)
@@ -106,14 +346,14 @@ The official project idea can be found in [sugarlabs/GSoC](https://github.com/su
 &emsp; &emsp; &emsp;└ EToys - Error window upon launching, menu frozen on Debian Bullseye.
 
 
-`10-Aug` - Terminal - Report unused function [Github Comment](https://github.com/sugarlabs/terminal-activity/pull/47)
+`10-Aug` - Terminal - Report unused function [GitHub Comment](https://github.com/sugarlabs/terminal-activity/pull/47)
 
 
-`15-Aug` - Sugar - 502 Bad Gateway, When trying to view an activity help page [#931](https://github.com/sugarlabs/sugar/issues/931)
+`15-Aug` - Sugar - 502 Bad Gateway when trying to view an activity's help page [#931](https://github.com/sugarlabs/sugar/issues/931)
 
 
 
-## Bugs opened in AbiWord:
+### Bugs opened in AbiWord:
 
 Write - Segmentation faults while performing various actions
 bugzilla.abisource.com/show_bug.cgi?id=13934
@@ -287,9 +527,11 @@ Opened: 2020-08-11 12:09
 </p>
 </details>
 
-## Bugs opened in Debian:
+### Bugs opened in Debian:
+
 Browse - Fails to start, error "glib-compile-schemas: not found
 bugs.debian.org/963068
+
 <details>
 <summary>Click to view the complete bug report</summary>
 <p>
@@ -385,7 +627,7 @@ sugar-browse-activity suggests no packages.
 
 
 
-## Pull Requests
+### Pull Requests
 
 
 `21-Jun` - Pippy - Fix dark mode is not set on new tabs [#83](https://github.com/sugarlabs/Pippy/pull/83) - `Merged`
@@ -419,7 +661,7 @@ sugar-browse-activity suggests no packages.
 
 
 
-## Other
+### Other
 
 
 `21-Jul` - Find Words - Find fix for error in Web Activity [Github Comment](https://github.com/sugarlabs/sugar-web/issues/135#issuecomment-663847858)
