@@ -743,10 +743,8 @@ The [Debian Sugar Team](https://salsa.debian.org/pkg-sugar-team) have done an ex
 
 >**Current state of Debian Sugar Packages**
 As of `25-Aug-2020` the [Debian Sugar Team](https://salsa.debian.org/pkg-sugar-team) repository contains 14 Activity packages, of which 12 activities (Browse, Calculate, Chat, EToys, Imageviewer, Jukebox, Log, Memorize, Pippy, Read, Terminal, Write) are available in the Debian Bullseye repositories. The remaining 2 activities (Finance, Record) are not available in the Debian Bullseye packages.
-    
-    1. `sugar-record-activity` is v102 in the Debian Archive, and is based on Python2. The latest release in the Sugar Labs GitHub is v201, based on Python3. The package was removed in 2016 in bug 813258, 799709, 790157 because it depended on GStreamer 0.10 which was dropped from Debian. Record v200 had fixed this by using GStreamer 1.0.
-    
-    2. `sugar-finance-activity` is v12 in the Debian Archive, and is based on Python2. The latest release in the Sugar Labs GitHub is v15, based on Python3. Intent to package was in 2015 in bug 783203, and disowned in 2016.
+>>1. `sugar-record-activity` is v102 in the Debian Archive, and is based on Python2. The latest release in the Sugar Labs GitHub is v201, based on Python3. The package was removed in 2016 in bug 813258, 799709, 790157 because it depended on GStreamer 0.10 which was dropped from Debian. Record v200 had fixed this by using GStreamer 1.0.
+>>2. `sugar-finance-activity` is v12 in the Debian Archive, and is based on Python2. The latest release in the Sugar Labs GitHub is v15, based on Python3. Intent to package was in 2015 in bug 783203, and disowned in 2016.
 
 
 I have also created documentation on setting up Sugar on Debian 11 [install-sugar-debian11.md](https://github.com/shaansubbaiah/Sugar-Useful-Info/blob/master/install-sugar-debian11.md) and collected snippets I used, that may help other Sugar contributors [useful-stuff.md](https://github.com/shaansubbaiah/Sugar-Useful-Info/blob/master/useful-stuff.md)
