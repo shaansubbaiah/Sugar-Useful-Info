@@ -36,18 +36,24 @@
 
 ## Overview
 
-**✨First, I'd like to especially thank my mentor, [James Cameron](https://github.com/quozl), whose guidance was invaluable, helping me think for myself and tackle problems.
-James also educated me on engineering and open-source best practices.
-I'd also like to thank all the members of the Sugar community that helped me along the way, making my GSoC experience that much more _sweet_.**
+**✨First, I'd like to especially thank my mentor, [James Cameron](https://github.com/quozl), whose guidance was invaluable, helping me think for myself and tackle problems.**
+
+**James also educated me on engineering and open-source best practices.**
+
+**I'd also like to thank all the members of the Sugar community that helped me along the way, making my GSoC experience that much more _sweet_.**
 
 ### Project Details
 The project revolved primarily around the testing and debugging of the various releases of Debian (stable, testing, experimental) with Sugar and its dependencies.
+
 Through the project I have tried to fix bugs in Sugar, its activities and dependencies that are reproducible in Debian and Debian issues related to Sugar.
+
 The official project idea can be found in [sugarlabs/GSoC](https://github.com/sugarlabs/GSoC/blob/master/Ideas-2020.md#debian-advocacy-for-sugar)
 
 ### Testing outcome
 I have thoroughly tested Sugar 0.117-3 with Debian 10.4 'stable' and Debian 11 'testing'.
+
 Tested are the activity's start/shutdown and save/restore functionality, major functions, collaboration (if supported), interface issues, warnings in logs.
+
 Testing outcomes for the same have been given below.
 
 **Testing outcome - Sugar 0.117-3 on Debian 10.4 'Stable' (Buster)**
@@ -303,6 +309,7 @@ Issues with the label [NEEDS CONFIRMATION] are reproducible on Debian Bullseye, 
 
 </details>
 
+---
 
 ## Work Done
 - [Issues Reported](#issues-reported)
@@ -733,12 +740,15 @@ Will continue to follow up on the response from the organizations.
 Issues found by me, while testing Sugar on Debian, which I had opened in the Sugar Labs GitHub over the GSoC timeline, have been fixed.
 
 Fortunately, only 1 issue found was due to Debian packaging, (in `sugar-browse-activity`) and a bug report has been submitted for the same.
+
 The [Debian Sugar Team](https://salsa.debian.org/pkg-sugar-team) have done an excellent job, as I found no other issues in Sugar and its activities due to Debian packaging.
 
 >**Current state of Debian Sugar Packages**
 As of `25-Aug-2020` the [Debian Sugar Team](https://salsa.debian.org/pkg-sugar-team) repository contains 14 Activity packages, of which 12 activities (Browse, Calculate, Chat, EToys, Imageviewer, Jukebox, Log, Memorize, Pippy, Read, Terminal, Write) are available in the Debian Bullseye repositories. The remaining 2 activities (Finance, Record) are not available in the Debian Bullseye packages.
-    1. `sugar-record-activity` is v102 in the Debian Archive, and is based on Python2. The latest release in the SugarLabs GitHub is v201, based on Python3. The package was removed in 2016 in bug 813258, 799709, 790157 because it depended on GStreamer 0.10 which was dropped from Debian. Record v200 had fixed this by using GStreamer 1.0.
-    2. `sugar-finance-activity` is v12 in the Debian Archive, and is based on Python2. The latest release in the SugarLabs GitHub is v15, based on Python3. Intent to package was in 2015 in bug 783203, and disowned in 2016.
+    
+    1. `sugar-record-activity` is v102 in the Debian Archive, and is based on Python2. The latest release in the Sugar Labs GitHub is v201, based on Python3. The package was removed in 2016 in bug 813258, 799709, 790157 because it depended on GStreamer 0.10 which was dropped from Debian. Record v200 had fixed this by using GStreamer 1.0.
+    
+    2. `sugar-finance-activity` is v12 in the Debian Archive, and is based on Python2. The latest release in the Sugar Labs GitHub is v15, based on Python3. Intent to package was in 2015 in bug 783203, and disowned in 2016.
 
 
 I have also created documentation on setting up Sugar on Debian 11 [install-sugar-debian11.md](https://github.com/shaansubbaiah/Sugar-Useful-Info/blob/master/install-sugar-debian11.md) and collected snippets I used, that may help other Sugar contributors [useful-stuff.md](https://github.com/shaansubbaiah/Sugar-Useful-Info/blob/master/useful-stuff.md)
@@ -747,6 +757,7 @@ I have also created documentation on setting up Sugar on Debian 11 [install-suga
 **Learning outcome**
 
 This has been a wonderful experience for me, a kick start to open-source development.
+
 It has helped me explore:
 - Python3
 - Debian's BTS and packaging tools
