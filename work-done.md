@@ -36,9 +36,7 @@
 
 ## Overview
 
-**✨First, I'd like to especially thank my mentor, [James Cameron](https://github.com/quozl), whose guidance was invaluable, helping me think for myself and tackle problems.**
-
-**James also educated me on engineering and open-source best practices.**
+**✨First, I'd like to especially thank my mentor, [James Cameron](https://github.com/quozl), whose guidance was invaluable, helping me think for myself and tackle problems. James also educated me on engineering and open-source best practices.**
 
 **I'd also like to thank all the members of the Sugar community that helped me along the way, making my GSoC experience that much more _sweet_.**
 
