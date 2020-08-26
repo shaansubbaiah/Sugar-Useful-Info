@@ -15,55 +15,82 @@
 
 <div align="center">
     <h4>
-        <a href="">
-            About
+        <a href="#overview">
+            Overview
         </a>
         <span> | </span>
-        <a href="">
-            Issues Reported
+        <a href="#work-done">
+            Work Done
         </a>
         <span> | </span>
-        <a href="">
-            Pull Requests
+        <a href="#work-in-progress">
+            Work In Progress
         </a>
         <span> | </span>
-        <a href="">
-            Work Pending
+        <a href="#outcome">
+            Outcome
         </a>
     </h4>
 </div>
 
 
-## About
+## Overview
 
+**✨First, I'd like to especially thank my mentor, [James Cameron](https://github.com/quozl), whose guidance was invaluable, helping me think for myself and tackle problems.
+James also educated me on engineering and open-source best practices.
+I'd also like to thank all the members of the Sugar community that helped me along the way, making my GSoC experience that much more _sweet_.**
+
+### Project Details
 The project revolved primarily around the testing and debugging of the various releases of Debian (stable, testing, experimental) with Sugar and its dependencies.
+Through the project I have tried to fix bugs in Sugar, its activities and dependencies that are reproducible in Debian and Debian issues related to Sugar.
+The official project idea can be found in [sugarlabs/GSoC](https://github.com/sugarlabs/GSoC/blob/master/Ideas-2020.md#debian-advocacy-for-sugar)
 
-Testing reports of
+### Testing outcome
+I have thoroughly tested Sugar 0.117-3 with Debian 10.4 'stable' and Debian 11 'testing'.
+Tested are the activity's start/shutdown and save/restore functionality, major functions, collaboration (if supported), interface issues, warnings in logs.
+Testing outcomes for the same have been given below.
 
-<details> 
-<summary>Testing outcome - Sugar 0.117-3 on Debian 10.4 Stable (Buster)</summary>
+**Testing outcome - Sugar 0.117-3 on Debian 10.4 'Stable' (Buster)**
 
-| Sugar | Debian|
-| :---: | :---: |
+| Sugar   | Debian                              |
+| :-----: | :---------------------------------: |
 | 0.117-3 | Buster / 10.4,  (unstable packages) |
+
 
 `Tick ✓` `Cross ✕`
 
-| Activity | Start/Stop | Functions | Save/Restore | Collaboration | Interface | Other |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Browse | ✕ [Debian #963068](bugs.debian.org/963068) | ✓ (Search bar doesn't work very well, described below) | ✓| ✕ (Error in Host's log, doesn't work, described below) | ✓ | Collapsing the Bookmarks bar lags/ causes multiple refreshes? |
-| Calculate | ✓ | ✓ | ✓ | ✓ | ✓ (Nothing thats not tracked on Github) | ✓ |
-| Chat | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Image Viewer | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Jukebox | ✓ | ✓ | ✓ | - | ✕ Multiple issues, mostly due to the OpenGL Renderer, described below | ✓ |
-| Log | ✓ | ✓ | ✓ (Saving log as a zip) | - | ✓ | ✓ |
-| Pippy | ✓ | ✓ | ✓ | - | ✓ | Dark mode is not applied to Pippy tabs created after Dark Mode is enabled. |
-| Read | ✓ | ✓ (Sometimes last 2 characters in a txt file are missing. Described below ) | ✓ | ✕ (Stuck at 'Receiving book') | ✓ | ✓ |
-| Terminal | ✓ | ✓ | ✓ | - | ✓ | Warning in activity log, described below |
-| Write | ✓ | ✓ | ✓ | ✕ [#40, Reported by Saumya](https://github.com/sugarlabs/write-activity/issues/40) | ✓ | 1. TTS ends halfway through the last word. <br> 2. Default font differs for guest in collaboration [#43](https://github.com/sugarlabs/write-activity/issues/43)|
+| Activity     | Start/Stop                                      | Functions | Save/Restore | Collaboration | Interface             | Other              |
+| :----------: | :---------------------------------------------: | :-------: | :----------: | :-----------: | :-------------------: | :----------------: |
+| Browse       | ✕ <br> [Debian #963068](bugs.debian.org/963068) | ✓         | ✓            | ✕             | ✓                     | ✓                  |
+| Calculate    | ✓                                               | ✓         | ✓            | ✓             | ✓                     | ✓                  |
+| Chat         | ✓                                               | ✓         | ✓            | ✓             | ✓                     | ✓                  |
+| Image Viewer | ✓                                               | ✓         | ✓            | ✓             | ✓                     | ✓                  |
+| Jukebox      | ✓                                               | ✓         | ✓            | -             | ✕ **MULTIPLE ISSUES** | ✓                  |
+| Log          | ✓                                               | ✓         | ✓            | -             | ✓                     | ✓                  |
+| Pippy        | ✓                                               | ✓         | ✓            | -             | ✓                     | **1 ISSUE**        |
+| Read         | ✓                                               | ✓         | ✓            | ✕             | ✓                     | ✓                  |
+| Terminal     | ✓                                               | ✓         | ✓            | -             | ✓                     | **WARNING IN LOG** |
+| Write        | ✓                                               | ✓         | ✓            | **1 ISSUE**   | ✓                     | **2 ISSUES**       |
+
+<br>
+
+<details> 
+<summary>
+    <strong>Click</strong> to view the <strong>Complete Testing Report</strong>
+</summary>
 
 
 ```markdown
+**Write**
+Collaboration:
+[#40, Reported by Saumya](https://github.com/sugarlabs/write-activity/issues/40)
+Other:
+1. TTS ends halfway through the last word. Unable to reproducible properly.
+2. Default font differs for guest in collaboration [#43](https://github.com/sugarlabs/write-activity/issues/43)
+
+**Pippy**
+Dark mode is not applied to Pippy tabs created after Dark Mode is enabled.
+
 **Terminal**
     ```
     /usr/lib/python3/dist-packages/sugar3/activity/activityinstance.py:60: Warning: value "((GtkInputPurpose) 10)
@@ -89,8 +116,7 @@ All tests apart from the `start/stop` were done after installing `libglib2.0-dev
     ```
 
 **Jukebox**
-1. Moving the openGL renderer window around creates a Windows XP-like solitare effect 
-![](screenshots/19June-jukebox-1.png)
+1. Moving the openGL renderer window around creates a Windows XP-like solitare effect
 2. Closing the openGL renderer window throws an error in the Jukebox log
     ```
     1592561580.133608 ERROR root: ERROR MESSAGE: gst-resource-error-quark: Quit requested (3)
@@ -100,7 +126,6 @@ All tests apart from the `start/stop` were done after installing `libglib2.0-dev
     ```
 3. Seeking ahead or back causes the openGL visualization to freeze, takes quite some time to recover or doesn't recover at all.
 4. Clicking the full-screen button causes another openGL visualization of the same size to spawn on the left of the previous visualization, which is now frozen.
-![](screenshots/19June-jukebox-2.png)
 5. Sometimes while closing and playing songs in the playlist a huge amount of warning appear in the jukebox log, not sure how to reproduce properly.
     ```
     1592562307.413873 ERROR root: ERROR MESSAGE: gst-resource-error-quark: Quit requested (3)
@@ -176,9 +201,9 @@ Note, the tests:
 
 </details>
 
+---
 
-<details>
-<summary>Testing outcome - Sugar 0.117-3 on Debian 11 Stable (Bullseye)</summary>
+**Testing outcome - Sugar 0.117-3 on Debian 11 'Testing' (Bullseye)**
 
 |  Sugar  |              Debian               |  As of  |
 | :-----: | :-------------------------------: | :-----: |
@@ -201,6 +226,13 @@ Note, the tests:
 | EToys        |                   **1 ISSUE**                   | **1 ISSUE** |      ✕       |       -       |     ✓     |      ✓       |
 | Memorize     |                        ✓                        | **1 ISSUE** |      ✕       |       ✓       |     ✓     | **2 ISSUES** |
 
+<br>
+
+<details>
+<summary>
+    <strong>Click</strong> to view the <strong>Complete Testing Report</strong>
+</summary>
+
 
 ```markdown
 **Read**
@@ -211,12 +243,10 @@ Functions:
    This happens occasionally, the data in the txt file is intact.
 
 
-
 **Calculate**
 Other:
 
 1. Typing random text instead of digits/variables throws an error. [#67](https://github.com/sugarlabs/calculate-activity/issues/67)
-
 
 
 **Write**
@@ -226,12 +256,10 @@ Other:
 2. Abiword Issues, Different fonts in collaboration, crashes, etc [#43](https://github.com/sugarlabs/write-activity/issues/43)
 
 
-
 **Browse:**
 Other:
 
 1. Collapsing the Bookmarks bar lags/ causes multiple refreshes? [NEEDS CONFIRMATION]
-
 
 
 **Memorize**
@@ -254,7 +282,6 @@ Other:
 2. The activity’s sounds and images (which are optional) depend on art4apps (http://wiki.sugarlabs.org/go/Art4Apps), which is not installed by default. Hence none of the sounds and words to generate cards dynamically are included. The user is not notified of winning as there is neither text displayed saying he/she has won nor the winning sound (win.wav from art4apps) is played.
 
 
-
 **Etoys:**
 Start/Stop:
 
@@ -264,7 +291,6 @@ Start/Stop:
 Functions:
 
 1. Clicking the Back/left-arrow button goes to the menu, which is frozen. The programmable car and the menu buttons don't work, there is no way to navigate back and the only way to exit is using Function buttons (F1 to F3)
-
 
 
 A lot of the issues reported while testing on Debian Buster (with unstable packages) have been fixed already.
@@ -278,10 +304,16 @@ Issues with the label [NEEDS CONFIRMATION] are reproducible on Debian Bullseye, 
 </details>
 
 
-The official project idea can be found in [sugarlabs/GSoC](https://github.com/sugarlabs/GSoC/blob/master/Ideas-2020.md#debian-advocacy-for-sugar)
+## Work Done
+- [Issues Reported](#issues-reported)
+- [Bugs opened in Abiword](#bugs-opened-in-abiword)
+- [Bugs opened in Debian](#bugs-opened-in-debian)
+- [Pull Requests](#pull-requests)
+- [Other](#other)
 
 
 ### Issues reported
+
 
 `05-Jun` - Sugar - DBus NoReply Error [Sugar-devel](http://lists.sugarlabs.org/archive/sugar-devel/2020-June/058403.html)
 
@@ -308,7 +340,7 @@ The official project idea can be found in [sugarlabs/GSoC](https://github.com/su
 
 &emsp; &emsp; &emsp;└ Pippy - Dark mode is not applied to Pippy tabs created after Dark Mode is enabled.
 
-&emsp; &emsp; &emsp;└ Read - Collaboration doesn't work; Sometimes  last 2 characters in a txt file are missing.
+&emsp; &emsp; &emsp;└ Read - Collaboration doesn't work; Sometimes last 2 characters in a txt file are missing.
 
 &emsp; &emsp; &emsp;└ Terminal - Warning in Activity log. Traceback in Sugar.
 
@@ -339,7 +371,7 @@ The official project idea can be found in [sugarlabs/GSoC](https://github.com/su
 
 &emsp; &emsp; &emsp;└ Calculate - Typing random text instead of digits/variables throws an error. [#67](https://github.com/sugarlabs/calculate-activity/issues/67)
 
-&emsp; &emsp; &emsp;└ Browse - Collapsing the Bookmarks bar lags/ causes multiple refreshes. Unconfirmed.
+&emsp; &emsp; &emsp;└ Browse - Collapsing the Bookmarks bar lags/ causes multiple refreshes. Later found to be due to the VM.
 
 &emsp; &emsp; &emsp;└ Memorize - Activity saves its state to the Datastore but does not load it properly, a fresh instance is started. Therefore, the user is unable to save their progress and continue later; On hovering over ‘grid size’ buttons, a warning is displayed; The activity’s sounds and images (which are optional) depend on art4apps (http://wiki.sugarlabs.org/go/Art4Apps), which is not installed by default.
 
@@ -355,11 +387,11 @@ The official project idea can be found in [sugarlabs/GSoC](https://github.com/su
 
 ### Bugs opened in AbiWord:
 
-Write - Segmentation faults while performing various actions
+`11-Aug` - Write - Segmentation faults while performing various actions.
 bugzilla.abisource.com/show_bug.cgi?id=13934
 
 <details>
-<summary>Click to view the complete bug report</summary>
+<summary><strong>Click to view</strong> the complete bug report</summary>
 <p>
 
 ```markdown
@@ -527,16 +559,19 @@ Opened: 2020-08-11 12:09
 </p>
 </details>
 
+
+
 ### Bugs opened in Debian:
 
-Browse - Fails to start, error "glib-compile-schemas: not found
+`18-Jun` - Browse - Activity fails to start, error `glib-compile-schemas: not found`.
 bugs.debian.org/963068
 
 <details>
-<summary>Click to view the complete bug report</summary>
+<summary><strong>Click to view</strong> the complete bug report</summary>
 <p>
 
 ```markdown
+
 From: Shaan Subbaiah <shaansubbaiah.cs18@bmsce.ac.in>
 To: Debian Bug Tracking System <submit@bugs.debian.org>
 Subject: sugar-browse-activity: Fails to start, error "glib-compile-schemas: not found"
@@ -629,39 +664,104 @@ sugar-browse-activity suggests no packages.
 
 ### Pull Requests
 
-
-`21-Jun` - Pippy - Fix dark mode is not set on new tabs [#83](https://github.com/sugarlabs/Pippy/pull/83) - `Merged`
-
-
-`30-Jun` - Read - Fix wrong logging label on highlight [#44](https://github.com/sugarlabs/read-activity/pull/44) - `Merged`
+`21-Jun` - Pippy - Fix dark mode is not set on new tabs [#83](https://github.com/sugarlabs/Pippy/pull/83) - `Merged` [#a0565bd](https://github.com/sugarlabs/Pippy/commit/a0565bddf56fa6f4c305982d10ee53ddacc900a4)
 
 
-`08-Jul` - JukeBox - Fix playlist navigation [#31](https://github.com/sugarlabs/jukebox-activity/pull/31) - `Merged`
+`30-Jun` - Read - Fix wrong logging label on highlighting text [#44](https://github.com/sugarlabs/read-activity/pull/44) - `Merged` [#25f69e4](https://github.com/sugarlabs/read-activity/commit/25f69e41a4fa69d93c73c0c9367b4777a014b1cd)
 
 
-`24-Jul` - Sugar Toolkit GTK3 - Fix bundlebuilder not handling empty arguments [#452](https://github.com/sugarlabs/sugar-toolkit-gtk3/pull/452) - `Merged`
+`08-Jul` - JukeBox - Fix playlist navigation [#31](https://github.com/sugarlabs/jukebox-activity/pull/31) - `Merged` [#e11f40c](https://github.com/sugarlabs/jukebox-activity/commit/e11f40c94c1c6302d3e36ddf4dc8101732ffb9d9)
 
 
-`29-Jul` - Memorize - Fix TypeError due to Bool arguments in ElementTree [#30](https://github.com/sugarlabs/memorize-activity/pull/30) - `Merged`
+`24-Jul` - Sugar Toolkit GTK3 - Fix bundlebuilder not handling empty arguments [#452](https://github.com/sugarlabs/sugar-toolkit-gtk3/pull/452) - `Merged` [#3ba3c14](https://github.com/sugarlabs/sugar-toolkit-gtk3/commit/3ba3c1463facdb8fe50f3894e02f16e85b5ebfde)
 
 
-`02-Aug` - Calculate - Fix issues occured while raising RuntimeError [#69](https://github.com/sugarlabs/calculate-activity/pull/69) - `Merged`
+`29-Jul` - Memorize - Fix TypeError due to Bool arguments in ElementTree [#30](https://github.com/sugarlabs/memorize-activity/pull/30) - `Merged` [#0520ed4](https://github.com/sugarlabs/memorize-activity/commit/0520ed4f0590e70b32099a861c3717273bc950f9)
 
 
-`08-Aug` - Terminal - Fix issues in theme toggling button [#44](https://github.com/sugarlabs/terminal-activity/pull/44) - `Merged`
+`02-Aug` - Calculate - Fix issues occured while raising RuntimeError [#69](https://github.com/sugarlabs/calculate-activity/pull/69) - `Merged` [#6be1180](https://github.com/sugarlabs/calculate-activity/commit/6be1180893bd4b31bfcfc64f6e06c5948542c76c)
 
 
-`10-Aug` - Terminal - Fix theme not switching to dark on toggle [#46](https://github.com/sugarlabs/terminal-activity/pull/46) - `Merged`
+`08-Aug` - Terminal - Fix issues in theme toggling button [#44](https://github.com/sugarlabs/terminal-activity/pull/44) - `Merged` [#4274006](https://github.com/sugarlabs/terminal-activity/commit/4274006af28024067f54b9ffc432f7c336d10885)
 
 
-`12-Aug` - Browse - Fix HTTP 403 Error on copying images [#114](https://github.com/sugarlabs/browse-activity/pull/114) - `Merged`
+`10-Aug` - Terminal - Fix theme not switching to dark on toggle [#46](https://github.com/sugarlabs/terminal-activity/pull/46) - `Merged` [#ce0f91a](https://github.com/sugarlabs/terminal-activity/commit/ce0f91a02bd183577d8b8fc3cd73c3385f0240f2)
 
 
-`19-Aug` - Pippy - Fix no source tab on resume of empty file [#85](https://github.com/sugarlabs/Pippy/pull/85) - `Merged`
+`12-Aug` - Browse - Fix HTTP 403 Error due to urllib user-agent [#114](https://github.com/sugarlabs/browse-activity/pull/114) - `Merged` [#3f07fa5](https://github.com/sugarlabs/browse-activity/commit/3f07fa55014f4caf0ca4d2bd740c2ff51c94ddda)
+
+
+`19-Aug` - Pippy - Fix no source tab on resume of empty file [#85](https://github.com/sugarlabs/Pippy/pull/85) - `Merged` [#6a2b884](https://github.com/sugarlabs/Pippy/commit/6a2b8844c0a89186d3d73761eaefc3cbef3dd697)
 
 
 
 ### Other
 
+`09-Mar` - Write - Report issue where Write Activity window could be dragged around in Ubuntu 20.04 packages [#38](https://github.com/sugarlabs/write-activity/issues/38)
 
-`21-Jul` - Find Words - Find fix for error in Web Activity [Github Comment](https://github.com/sugarlabs/sugar-web/issues/135#issuecomment-663847858)
+
+`12-Mar` - sugar-arch - Fix installer script for Sugar v0.116 on Arch Linux by Srevin Saju [#79fa4b](https://github.com/srevinsaju/sugar-arch/commit/79fa4be5ef113a8592e1ce332ce6f34e9913db40)
+
+
+`19-Mar` - sugar-docs - Add guide to logging in with display managers [#e479af](https://github.com/sugarlabs/sugar-docs/commit/e479af49c8aa0b43a0bc8cb0315133e7f8307c65)
+
+
+`06-Apr` - SwiftFeet - Partial progress in porting activity to Python3 [Github Link](https://github.com/sugarlabs/swiftfeet-activity)
+
+
+`08-Apr` - sugar-docs - Fix typo in import statement [#5f13ac](https://github.com/sugarlabs/sugar-docs/commit/5f13aceddd029fc0f95d4784fceca8228b4de664) 
+
+
+`02-May` - Sugar - API Socket: Port to Python3 [#f1ac68](https://github.com/sugarlabs/sugar/commit/f1ac68488631ab153dd31b737819fd5cadc3b158)
+
+&emsp; &emsp; &emsp;└ Sugar - Fix DBusException is not JSON serializable [#9fa8cf](https://github.com/sugarlabs/sugar/commit/9fa8cffb3c50afaeeb7566b14018104b43c7ac59)
+
+
+`21-Jul` - Find Words - Find fix for error in Web Activity due to SVG [GitHub Comment](https://github.com/sugarlabs/sugar-web/issues/135#issuecomment-663847858)
+
+
+
+## Work In Progress
+
+I have sent bug reports to the [AbiSource](#bugs-opened-in-abiword) and [Debian](#bugs-opened-in-debian) Bug Tracking Systems.
+Will continue to follow up on the response from the organizations.
+
+
+
+## Outcome
+
+Issues found by me, while testing Sugar on Debian, which I had opened in the Sugar Labs GitHub over the GSoC timeline, have been fixed.
+
+Fortunately, only 1 issue found was due to Debian packaging, (in `sugar-browse-activity`) and a bug report has been submitted for the same.
+The [Debian Sugar Team](https://salsa.debian.org/pkg-sugar-team) have done an excellent job, as I found no other issues in Sugar and its activities due to Debian packaging.
+
+>**Current state of Debian Sugar Packages**
+As of `25-Aug-2020` the [Debian Sugar Team](https://salsa.debian.org/pkg-sugar-team) repository contains 14 Activity packages, of which 12 activities (Browse, Calculate, Chat, EToys, Imageviewer, Jukebox, Log, Memorize, Pippy, Read, Terminal, Write) are available in the Debian Bullseye repositories. The remaining 2 activities (Finance, Record) are not available in the Debian Bullseye packages.
+    1. `sugar-record-activity` is v102 in the Debian Archive, and is based on Python2. The latest release in the SugarLabs GitHub is v201, based on Python3. The package was removed in 2016 in bug 813258, 799709, 790157 because it depended on GStreamer 0.10 which was dropped from Debian. Record v200 had fixed this by using GStreamer 1.0.
+    2. `sugar-finance-activity` is v12 in the Debian Archive, and is based on Python2. The latest release in the SugarLabs GitHub is v15, based on Python3. Intent to package was in 2015 in bug 783203, and disowned in 2016.
+
+
+I have also created documentation on setting up Sugar on Debian 11 [install-sugar-debian11.md](https://github.com/shaansubbaiah/Sugar-Useful-Info/blob/master/install-sugar-debian11.md) and collected snippets I used, that may help other Sugar contributors [useful-stuff.md](https://github.com/shaansubbaiah/Sugar-Useful-Info/blob/master/useful-stuff.md)
+
+
+**Learning outcome**
+
+This has been a wonderful experience for me, a kick start to open-source development.
+It has helped me explore:
+- Python3
+- Debian's BTS and packaging tools
+- GTK+ 3
+- Bash scripting
+- SSH
+- Automation tools like Xdottool and Autohotkey
+- Setting up VM's with KVM and Virt-Manager
+- Debugging with GDB and PDB
+- Git
+- Python 2to3
+- Multitail and setting up its config
+- Creating TCP Dumps to debug Web Activities 
+
+
+<div align="center">
+    I'd like to thank Sugar Labs and Google for making this possible.
+</div>
