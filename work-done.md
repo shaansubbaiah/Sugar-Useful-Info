@@ -728,14 +728,15 @@ sugar-browse-activity suggests no packages.
 
 ## Work In Progress
 
-I have sent bug reports to the [AbiSource](#bugs-opened-in-abiword) and [Debian](#bugs-opened-in-debian) Bug Tracking Systems.
+1. I have sent bug reports to the [AbiSource](#bugs-opened-in-abiword) and [Debian](#bugs-opened-in-debian) Bug Tracking Systems.
 Will continue to follow up on the response from the organizations.
 
+2. Try to find fix for Sugar [#931](https://github.com/sugarlabs/sugar/issues/931)
 
 
 ## Outcome
 
-Issues found by me, while testing Sugar on Debian, which I had opened in the Sugar Labs GitHub over the GSoC timeline, have been fixed.
+Almost all issues found by me, while testing Sugar on Debian, which I had opened in the Sugar Labs GitHub over the GSoC timeline, have been fixed. (All but Sugar [#931](https://github.com/sugarlabs/sugar/issues/931) have been fixed)
 
 Fortunately, only 1 issue found was due to Debian packaging, (in `sugar-browse-activity`) and a bug report has been submitted for the same.
 
