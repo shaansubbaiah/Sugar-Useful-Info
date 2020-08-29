@@ -27,8 +27,8 @@ Multitail config for highlighting:
 # Sugar
 colorscheme:sugar
 cs_re:green:DEBUG
-cs_re:red:ERROR
-cs_re_s:yellow:(Warning.*)
+cs_re:red:^(([a-zA-Z]*Error)|Traceback).*$
+cs_re:yellow:^.*(Warning|WARNING).*$
 cs_re_s:blue:([0-9]{10,}\.[0-9]{6,})
 #
 ```
