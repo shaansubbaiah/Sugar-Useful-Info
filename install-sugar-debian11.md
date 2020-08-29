@@ -44,7 +44,7 @@ This part is completely optional. These programs help in debugging/developing Su
 apt install multitail openssh-server
 ```
 
-Setup colorful multitail logs
+Setup colorful Multitail logs (Makes it easier to identify errors and warnings) 
 ```bash
 # Paste the snippet into /etc/multitail.conf
 # Or save as .multitailrc in the home directory
@@ -52,8 +52,8 @@ Setup colorful multitail logs
 # Sugar
 colorscheme:sugar
 cs_re:green:DEBUG
-cs_re:red:ERROR
-cs_re_s:yellow:(Warning.*)
+cs_re:red:^(([a-zA-Z]*Error)|Traceback).*$
+cs_re:yellow:^.*(Warning|WARNING).*$
 cs_re_s:blue:([0-9]{10,}\.[0-9]{6,})
 #
 ```
